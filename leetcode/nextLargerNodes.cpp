@@ -1,40 +1,36 @@
 #include<iostream>
-#include<vector>
 #include<stack>
 #include <utility>
+#include "LinkList.h"
+#include<vector>
+#include <stdlib.h>
 
 using namespace std;
-struct ListNode{
-	int val;
-	ListNode *next;
-	ListNode(int x): val(x),next(NULL){}
-};
-void showList(ListNode *head);
-void showVecArr(vector<int> v);
+
+void showVecArr(std::vector<int> v);
 class Solution{
 public:
 	vector<int> nextLargerNodes(ListNode* head);
 	vector<int> nextLargerNodes2(ListNode* head);
 	vector<int> nextLargerNodes3(ListNode* head);
-	ListNode *initLinkList(vector<int> vec);
-	void insertLinkListHead(int val,ListNode *&head);
-	void insertLinkListTail(int val,ListNode *&head);
-	void destroyLinkList(ListNode *&head);
+
+	ListNode* removeZeroSumSublists(ListNode* head);
+
 };
 
 int main(){
 	vector<int> vec = {2,1,5};
 	Solution solution;
-	ListNode *head = solution.initLinkList(vec);
+	ListNode *head = initLinkList(vec);
 	showList(head);
 
-	solution.insertLinkListTail(4,head);
+	insertLinkListTail(4,head);
 	showList(head);
 
 	vector<int> result = solution.nextLargerNodes3(head);
 	showVecArr(result);
 
-	solution.destroyLinkList(head);
+	destroyLinkList(head);
 	showList(head);
 	return 0;
 }
@@ -140,67 +136,10 @@ vector<int> Solution::nextLargerNodes3(ListNode* head){
 }
 
 
-void showList(ListNode *head){
-	cout << endl << "List: ";
-	while(head){
-		cout << head->val << ", ";
-		head = head->next;
-	}
-	cout << endl;
-}
-
 void showVecArr(vector<int> v){
 	cout << endl << "vector arr : ";
 	for(int i = 0; i < (int)v.size(); i++){
 		cout << v[i] << ", ";
 	}
 	cout << endl;
-}
-
-ListNode *Solution::initLinkList(vector<int> vec){
-	if(vec.size() == 0) return NULL;
-	ListNode *head = new ListNode(vec[0]);
-	ListNode *p = head;
-	for(int i = 1;i<(int)vec.size();i++){
-		cout << "vec[" << i << "] = " << vec[i] << endl;
-		//因为函数外还要使用，所以不能简单的声明一个该类型的变量，而应该用堆里的内存，要么new 要么malloc
-		ListNode* node = new ListNode(vec[i]);
-		p->next = node;
-		p = node;
-	}
-	return head;
-}
-
-//头插
-void Solution::insertLinkListHead(int val,ListNode *&head){
-	ListNode *node = new ListNode(val);
-	// node->val = val;
-	node->next = head;
-	head = node;
-}
-
-//尾插
-void Solution::insertLinkListTail(int val,ListNode *&head){
-	ListNode *p = head;
-	ListNode *pre = NULL;
-	while(p){
-		pre = p;
-		p = p->next;
-	}
-
-	ListNode *node = new ListNode(val);
-	pre->next = node;
-	if(!head){
-		head = node;
-	}
-}
-
-void Solution::destroyLinkList(ListNode *&head){
-	if(!head) return;
-	ListNode *p = NULL;
-	while(head){
-		p = head->next;
-		delete head;
-		head = p;
-	}
 }
